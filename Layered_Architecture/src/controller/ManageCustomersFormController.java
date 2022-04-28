@@ -126,7 +126,7 @@ public class ManageCustomersFormController {
     }
 
 
-    public void btnSave_OnAction(ActionEvent actionEvent) {
+    public void btnSave_OnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
         String id = txtCustomerId.getText();
         String name = txtCustomerName.getText();
         String address = txtCustomerAddress.getText();
@@ -172,8 +172,10 @@ public class ManageCustomersFormController {
             }
 
             CustomerTM selectedCustomer = tblCustomers.getSelectionModel().getSelectedItem();
-            selectedCustomer.setName(name);
-            selectedCustomer.setAddress(address);
+//            selectedCustomer.setName(name);
+//            selectedCustomer.setAddress(address);
+            CustomerDAOImpl customerDAO = new CustomerDAOImpl();
+            customerDAO.UpdateCustomer(new CustomerDTO(id,name,address));
             tblCustomers.refresh();
         }
 
