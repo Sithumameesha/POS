@@ -1,10 +1,9 @@
 package controller;
 
-import Dao.CustomerDAO;
+import Dao.CrudDAO;
 import Dao.CustomerDAOImpl;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
-import db.DBConnection;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -41,7 +40,7 @@ public class ManageCustomersFormController {
     public JFXTextField txtCustomerAddress;
     public TableView<CustomerTM> tblCustomers;
     public JFXButton btnAddNewCustomer;
-    private final CustomerDAO customerDAO = new CustomerDAOImpl();
+    private final CrudDAO customerDAO = new CustomerDAOImpl();
 
     public void initialize() {
         tblCustomers.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -195,7 +194,7 @@ public class ManageCustomersFormController {
 
 
     boolean existCustomer(String id) throws SQLException, ClassNotFoundException {
-        CustomerDAO customerDAO  = new CustomerDAOImpl();
+        CrudDAO customerDAO  = new CustomerDAOImpl();
         return customerDAO.existCustomer(id);
     }
 

@@ -1,12 +1,8 @@
 package controller;
 
-import Dao.CustomerDAO;
-import Dao.CustomerDAOImpl;
-import Dao.ItemDAO;
 import Dao.ItemDAOImpl;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
-import db.DBConnection;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
