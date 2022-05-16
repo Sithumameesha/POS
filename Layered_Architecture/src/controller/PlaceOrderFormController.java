@@ -1,9 +1,6 @@
 package controller;
 
-import Dao.CrudDAO;
-import Dao.CustomerDAOImpl;
-import Dao.ItemDAOImpl;
-import Dao.SQLUtil;
+import Dao.*;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
@@ -22,6 +19,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import model.CustomerDTO;
 import model.ItemDTO;
+import model.OrderDTO;
 import model.OrderDetailDTO;
 import view.tdm.OrderDetailTM;
 
@@ -192,10 +190,6 @@ public class PlaceOrderFormController {
     }
 
     boolean existCustomer(String id) throws SQLException, ClassNotFoundException {
-//        Connection connection = DBConnection.getDbConnection().getConnection();
-//        PreparedStatement pstm = connection.prepareStatement("SELECT id FROM Customer WHERE id=?");
-//        pstm.setString(1, id);
-//        return pstm.executeQuery().next();
         CrudDAO<CustomerDTO,String> customerDAO = new CustomerDAOImpl();
         return customerDAO.exist(id);
 
@@ -203,11 +197,8 @@ public class PlaceOrderFormController {
 
     public String generateNewOrderId() {
         try {
-            Connection connection = DBConnection.getDbConnection().getConnection();
-            Statement stm = connection.createStatement();
-            ResultSet rst = stm.executeQuery("SELECT oid FROM `Orders` ORDER BY oid DESC LIMIT 1;");
-
-            return rst.next() ? String.format("OID-%03d", (Integer.parseInt(rst.getString("oid").replace("OID-", "")) + 1)) : "OID-001";
+            CrudDAO<OrderDTO,String> orderDAO = new OrderDAOImpl();
+            return orderDAO.generateNewID();
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, "Failed to generate a new order id").show();
         } catch (ClassNotFoundException e) {
@@ -315,8 +306,7 @@ public class PlaceOrderFormController {
 
     public void btnPlaceOrder_OnAction(ActionEvent actionEvent) {
         boolean b = saveOrder(orderId, LocalDate.now(), cmbCustomerId.getValue(),
-                tblOrderDetails.getItems().stream().map(tm -> new OrderDetailDTO(tm.getCode(), tm.getQty(), tm.getUnitPrice())).collect(Collectors.toList()));
-
+                tblOrderDetails.getItems().stream().map(tm -> new OrderDetailDTO(orderId, tm.getCode(), tm.getQty(), tm.getUnitPrice())).collect(Collectors.toList()));
         if (b) {
             new Alert(Alert.AlertType.INFORMATION, "Order has been placed successfully").show();
         } else {
@@ -336,35 +326,37 @@ public class PlaceOrderFormController {
         /*Transaction*/
         Connection connection = null;
         try {
-            connection = DBConnection.getDbConnection().getConnection();
-            PreparedStatement stm = connection.prepareStatement("SELECT oid FROM `Orders` WHERE oid=?");
-            stm.setString(1, orderId);
+            CrudDAO<OrderDTO,String> orderDAO= new OrderDAOImpl();
+
             /*if order id already exist*/
-            if (stm.executeQuery().next()) {
+            if (orderDAO.exist(orderId)) {
 
             }
 
             connection.setAutoCommit(false);
-            stm = connection.prepareStatement("INSERT INTO `Orders` (oid, date, customerID) VALUES (?,?,?)");
-            stm.setString(1, orderId);
-            stm.setDate(2, Date.valueOf(orderDate));
-            stm.setString(3, customerId);
+//            stm = connection.prepareStatement("INSERT INTO `Orders` (oid, date, customerID) VALUES (?,?,?)");
+//            stm.setString(1, orderId);
+//            stm.setDate(2, Date.valueOf(orderDate));
+//            stm.setString(3, customerId);
+            OrderDAOImpl orderDAO1 = new OrderDAOImpl();
+           boolean save = orderDAO1.save(new OrderDTO(orderId,orderDate,customerId));
 
-            if (stm.executeUpdate() != 1) {
+            if (!save) {
                 connection.rollback();
                 connection.setAutoCommit(true);
                 return false;
             }
 
-            stm = connection.prepareStatement("INSERT INTO OrderDetails (oid, itemCode, unitPrice, qty) VALUES (?,?,?,?)");
+           // stm = connection.prepareStatement("INSERT INTO OrderDetails (oid, itemCode, unitPrice, qty) VALUES (?,?,?,?)");
+               OrderDetailsDAOImpl orderDetailsDAO= new OrderDetailsDAOImpl();
 
             for (OrderDetailDTO detail : orderDetails) {
-                stm.setString(1, orderId);
-                stm.setString(2, detail.getItemCode());
-                stm.setBigDecimal(3, detail.getUnitPrice());
-                stm.setInt(4, detail.getQty());
-
-                if (stm.executeUpdate() != 1) {
+//                stm.setString(1, orderId);
+//                stm.setString(2, detail.getItemCode());
+//                stm.setBigDecimal(3, detail.getUnitPrice());
+//                stm.setInt(4, detail.getQty());
+                boolean save1 = orderDetailsDAO.save(detail);
+                if (save1) {
                     connection.rollback();
                     connection.setAutoCommit(true);
                     return false;
@@ -374,11 +366,7 @@ public class PlaceOrderFormController {
                 ItemDTO item = findItem(detail.getItemCode());
                 item.setQtyOnHand(item.getQtyOnHand() - detail.getQty());
 
-//                PreparedStatement pstm = connection.prepareStatement("UPDATE Item SET description=?, unitPrice=?, qtyOnHand=? WHERE code=?");
-//                pstm.setString(1, item.getDescription());
-//                pstm.setBigDecimal(2, item.getUnitPrice());
-//                pstm.setInt(3, item.getQtyOnHand());
-//                pstm.setString(4, item.getCode());
+
                 CrudDAO<ItemDTO,String>itemDAO= new ItemDAOImpl();
                 boolean update = itemDAO.update(new ItemDTO(item.getCode(),
                         item.getDescription(),
@@ -407,12 +395,6 @@ public class PlaceOrderFormController {
 
     public ItemDTO findItem(String code) {
         try {
-//            Connection connection = DBConnection.getDbConnection().getConnection();
-//            PreparedStatement pstm = connection.prepareStatement("SELECT * FROM Item WHERE code=?");
-//            pstm.setString(1, code);
-//            ResultSet rst = pstm.executeQuery();
-//            rst.next();
-//            return new ItemDTO(code, rst.getString("description"), rst.getBigDecimal("unitPrice"), rst.getInt("qtyOnHand"));
             CrudDAO<ItemDTO,String> itemDAO= new ItemDAOImpl();
             return itemDAO.search(code);
        } catch (SQLException e) {
