@@ -20,12 +20,24 @@ public class ItemDAOImpl implements CrudDAO <ItemDTO,String>{
 
     @Override
     public boolean update(ItemDTO dto) throws SQLException, ClassNotFoundException {
-        return false;
+        return SQLUtil.executeUpdate("UPDATE Item SET description=?, unitPrice=?, qtyOnHand=? WHERE code=?", dto.getDescription(), dto.getUnitPrice(), dto.getQtyOnHand(), dto.getCode());
     }
 
     @Override
     public boolean exist(String s) throws SQLException, ClassNotFoundException {
         return false;
+    }
+
+    @Override
+    public ItemDTO search(String code) throws SQLException, ClassNotFoundException {
+       ResultSet rst=  SQLUtil.executeQuery("SELECT * FROM Item WHERE code=?",code);
+       if (rst.next()){
+           return new ItemDTO(rst.getString(1),
+                   rst.getString(2),
+                   rst.getBigDecimal(3),
+                   rst.getInt(4));
+       }
+       return null;
     }
 
     @Override
