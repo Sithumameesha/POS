@@ -351,12 +351,8 @@ public class PlaceOrderFormController {
                OrderDetailsDAOImpl orderDetailsDAO= new OrderDetailsDAOImpl();
 
             for (OrderDetailDTO detail : orderDetails) {
-//                stm.setString(1, orderId);
-//                stm.setString(2, detail.getItemCode());
-//                stm.setBigDecimal(3, detail.getUnitPrice());
-//                stm.setInt(4, detail.getQty());
                 boolean save1 = orderDetailsDAO.save(detail);
-                if (save1) {
+                if (!save1) {
                     connection.rollback();
                     connection.setAutoCommit(true);
                     return false;
