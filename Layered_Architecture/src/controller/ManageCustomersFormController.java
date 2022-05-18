@@ -1,7 +1,8 @@
 package controller;
 
 import Dao.CrudDAO;
-import Dao.CustomerDAOImpl;
+import Dao.Custom.CustomerDAO;
+import Dao.Custom.Impl.CustomerDAOImpl;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import javafx.application.Platform;
@@ -40,7 +41,7 @@ public class ManageCustomersFormController {
     public JFXTextField txtCustomerAddress;
     public TableView<CustomerTM> tblCustomers;
     public JFXButton btnAddNewCustomer;
-    private final CrudDAO <CustomerDTO,String>customerDAO = new CustomerDAOImpl();
+    private final CustomerDAO customerDAO = new CustomerDAOImpl();
 
     public void initialize() {
         tblCustomers.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("id"));

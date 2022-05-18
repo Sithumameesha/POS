@@ -1,14 +1,12 @@
-package Dao;
+package Dao.Custom.Impl;
 
-import db.DBConnection;
+import Dao.Custom.OrderDAO;
 import model.OrderDTO;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class OrderDAOImpl implements OrderDAO{
+public class OrderDAOImpl implements OrderDAO {
 
     @Override
     public ArrayList<OrderDTO> getAll() throws SQLException, ClassNotFoundException {

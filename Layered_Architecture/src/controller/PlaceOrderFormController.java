@@ -1,6 +1,14 @@
 package controller;
 
 import Dao.*;
+import Dao.Custom.CustomerDAO;
+import Dao.Custom.Impl.CustomerDAOImpl;
+import Dao.Custom.Impl.ItemDAOImpl;
+import Dao.Custom.Impl.OrderDAOImpl;
+import Dao.Custom.Impl.OrderDetailsDAOImpl;
+import Dao.Custom.ItemDAO;
+import Dao.Custom.OrderDAO;
+import Dao.Custom.OrderDetailsDAO;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
@@ -55,6 +63,10 @@ public class PlaceOrderFormController {
     public Label lblDate;
     public Label lblTotal;
     private String orderId;
+    private final CustomerDAO customerDAO = new CustomerDAOImpl();
+    private final ItemDAO itemDAO = new ItemDAOImpl();
+    private final OrderDAO orderDAO = new OrderDAOImpl();
+    private final OrderDetailsDAO orderDetailsDAO = new OrderDetailsDAOImpl();
 
     public void initialize() throws SQLException, ClassNotFoundException {
 
