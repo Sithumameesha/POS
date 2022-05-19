@@ -345,7 +345,7 @@ public class PlaceOrderFormController {
 
             }
 
-            connection.setAutoCommit(false);
+            //connection.setAutoCommit(false);
 //            stm = connection.prepareStatement("INSERT INTO `Orders` (oid, date, customerID) VALUES (?,?,?)");
 //            stm.setString(1, orderId);
 //            stm.setDate(2, Date.valueOf(orderDate));
@@ -388,8 +388,8 @@ public class PlaceOrderFormController {
                 }
             }
 
-            connection.commit();
-            connection.setAutoCommit(true);
+           // connection.commit();
+           // connection.setAutoCommit(true);
             return true;
 
         } catch (SQLException throwables) {
