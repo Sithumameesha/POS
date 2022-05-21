@@ -2,6 +2,7 @@ package controller;
 
 import Dao.Custom.ItemDAO;
 import Dao.Custom.Impl.ItemDAOImpl;
+import bo.ItemBO;
 import bo.ItemBoImpl;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
@@ -32,6 +33,7 @@ import java.util.ArrayList;
  **/
 
 public class ManageItemsFormController {
+    ItemBO itemBo = new ItemBoImpl();
     public AnchorPane root;
     public JFXTextField txtCode;
     public JFXTextField txtDescription;
@@ -81,7 +83,7 @@ public class ManageItemsFormController {
             //Loos Coupling
 
            // ArrayList<ItemDTO> allItems = itemDAO.getAll();
-            ItemBoImpl itemBo = new ItemBoImpl();
+
             ArrayList<ItemDTO> allItems = itemBo.getAllItems();
 
             for (ItemDTO item : allItems) {
@@ -147,7 +149,7 @@ public class ManageItemsFormController {
             //Loos Coupling
 
           //  itemDAO.delete(code);
-            ItemBoImpl itemBo = new ItemBoImpl();
+
             itemBo.deleteItems(code);
 
             tblItems.getItems().remove(tblItems.getSelectionModel().getSelectedItem());
@@ -191,7 +193,7 @@ public class ManageItemsFormController {
                 //Loos Coupling
 
                 //itemDAO.save(new ItemDTO(code, description, unitPrice, qtyOnHand));
-                ItemBoImpl itemBo = new ItemBoImpl();
+
                  itemBo.saveItems(new ItemDTO(code, description, unitPrice, qtyOnHand));
 
                 tblItems.getItems().add(new ItemTM(code, description, unitPrice, qtyOnHand));
@@ -211,7 +213,7 @@ public class ManageItemsFormController {
                 //Loos Coupling
 
                 //itemDAO.update(new ItemDTO(code, description, unitPrice, qtyOnHand));
-                ItemBoImpl itemBo = new ItemBoImpl();
+
                 itemBo.updateItem(new ItemDTO(code, description, unitPrice, qtyOnHand));
 
                 ItemTM selectedItem = tblItems.getSelectionModel().getSelectedItem();
@@ -234,7 +236,7 @@ public class ManageItemsFormController {
         //Loos Coupling
 
        // return itemDAO.exist(code);
-        ItemBoImpl itemBo = new ItemBoImpl();
+
         return itemBo.itemIsAvailable(code);
     }
 
@@ -244,8 +246,8 @@ public class ManageItemsFormController {
             //Loos Coupling
 
             //return itemDAO.generateNewID();
-            ItemBoImpl itemBo = new ItemBoImpl();
-            itemBo.generateNewId();
+
+            return itemBo.generateNewId();
 
 
         } catch (SQLException e) {

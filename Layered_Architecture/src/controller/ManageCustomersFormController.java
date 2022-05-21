@@ -3,6 +3,7 @@ package controller;
 import Dao.CrudDAO;
 import Dao.Custom.CustomerDAO;
 import Dao.Custom.Impl.CustomerDAOImpl;
+import bo.CustomerBo;
 import bo.CustomerBoImpl;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
@@ -34,6 +35,7 @@ import java.util.List;
  **/
 
 public class ManageCustomersFormController {
+    CustomerBo customerBo = new CustomerBoImpl();
     public AnchorPane root;
     public JFXTextField txtCustomerName;
     public JFXTextField txtCustomerId;
@@ -79,7 +81,8 @@ public class ManageCustomersFormController {
             //Loos Coupling
 
            // ArrayList<CustomerDTO> allCustomers = customerDAO.getAll();
-            CustomerBoImpl customerBo = new CustomerBoImpl();
+//
+
             ArrayList<CustomerDTO> allCustomers = customerBo.getAllCustomer();
 
 
@@ -159,7 +162,8 @@ public class ManageCustomersFormController {
                 //Tight Coupling
 
                // customerDAO.save(new CustomerDTO(id, name, address));
-                CustomerBoImpl customerBo = new CustomerBoImpl();
+
+               // customerBo.saveCustomer(new CustomerDTO(id, name, address));
                 customerBo.saveCustomer(new CustomerDTO(id, name, address));
 
                 tblCustomers.getItems().add(new CustomerTM(id, name, address));
@@ -181,7 +185,7 @@ public class ManageCustomersFormController {
                 //Tight Coupling
 
               // customerDAO.update(new CustomerDTO(id, name, address));
-                CustomerBoImpl customerBo = new CustomerBoImpl();
+
                 customerBo.updateCustomer(new CustomerDTO(id, name, address));
 
 
@@ -202,7 +206,7 @@ public class ManageCustomersFormController {
 
 
     boolean existCustomer(String id) throws SQLException, ClassNotFoundException {
-        CustomerBoImpl customerBo = new CustomerBoImpl();
+
         return customerBo.customerIsAvailable(id);
       //  return customerDAO.exist(id);
     }
@@ -219,7 +223,7 @@ public class ManageCustomersFormController {
             //Tight Coupling
 
            // customerDAO.delete(id);
-            CustomerBoImpl customerBo = new CustomerBoImpl();
+
             customerBo.deleteCustomer(id);
 
             tblCustomers.getItems().remove(tblCustomers.getSelectionModel().getSelectedItem());
@@ -239,7 +243,7 @@ public class ManageCustomersFormController {
             //Tight Coupling
 
             //return customerDAO.generateNewID();
-            CustomerBoImpl customerBo = new CustomerBoImpl();
+
             return customerBo.generateNewId();
 
         } catch (SQLException e) {
