@@ -24,8 +24,8 @@ public class CustomerBoImpl {
     public boolean customerIsAvailable(String id) throws SQLException, ClassNotFoundException {
         return customerDAO.exist(id);
     }
-    public void deleteCustomer(String id) throws SQLException, ClassNotFoundException {
-      customerDAO.delete(id);
+    public boolean deleteCustomer(String id) throws SQLException, ClassNotFoundException {
+       return customerDAO.delete(id);
     }
     public String  generateNewId() throws SQLException, ClassNotFoundException {
      return customerDAO.generateNewID();
