@@ -1,10 +1,7 @@
 package controller;
 
-import Dao.CrudDAO;
-import Dao.Custom.CustomerDAO;
-import Dao.Custom.Impl.CustomerDAOImpl;
-import bo.CustomerBo;
-import bo.CustomerBoImpl;
+import bo.Custom.CustomerBo;
+import bo.Custom.Impl.CustomerBoImpl;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import javafx.application.Platform;

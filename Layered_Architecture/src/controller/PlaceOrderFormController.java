@@ -1,20 +1,10 @@
 package controller;
 
-import Dao.*;
-import Dao.Custom.CustomerDAO;
-import Dao.Custom.Impl.CustomerDAOImpl;
-import Dao.Custom.Impl.ItemDAOImpl;
-import Dao.Custom.Impl.OrderDAOImpl;
-import Dao.Custom.Impl.OrderDetailsDAOImpl;
-import Dao.Custom.ItemDAO;
-import Dao.Custom.OrderDAO;
-import Dao.Custom.OrderDetailsDAO;
-import bo.PurchaseOrderBOImpl;
-import bo.PurchaseOrderBo;
+import bo.Custom.Impl.PurchaseOrderBOImpl;
+import bo.Custom.PurchaseOrderBo;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
-import db.DBConnection;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.event.ActionEvent;
@@ -29,7 +19,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import model.CustomerDTO;
 import model.ItemDTO;
-import model.OrderDTO;
 import model.OrderDetailDTO;
 import view.tdm.OrderDetailTM;
 
@@ -111,7 +100,7 @@ public class PlaceOrderFormController {
             if (newValue != null) {
                 try {
                     /*Search Customer*/
-                    Connection connection = DBConnection.getDbConnection().getConnection();
+                    //Connection connection = DBConnection.getDbConnection().getConnection();
                     try {
                         if (!existCustomer(newValue + "")) {
 //                            "There is no such customer associated with the id " + id
@@ -129,8 +118,6 @@ public class PlaceOrderFormController {
                         new Alert(Alert.AlertType.ERROR, "Failed to find the customer " + newValue + "" + e).show();
                     }
 
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }

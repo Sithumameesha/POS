@@ -1,8 +1,9 @@
-package bo;
+package bo.Custom.Impl;
 
 import Dao.CrudDAO;
 import Dao.Custom.*;
 import Dao.Custom.Impl.*;
+import bo.Custom.PurchaseOrderBo;
 import db.DBConnection;
 import model.CustomerDTO;
 import model.ItemDTO;
@@ -15,7 +16,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PurchaseOrderBOImpl implements PurchaseOrderBo{
+public class PurchaseOrderBOImpl implements PurchaseOrderBo {
     private final CustomerDAO customerDAO = new CustomerDAOImpl();
     private final ItemDAO itemDAO = new ItemDAOImpl();
     private final OrderDAO orderDAO = new OrderDAOImpl();

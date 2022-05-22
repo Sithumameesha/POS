@@ -1,4 +1,4 @@
-package bo;
+package bo.Custom;
 
 import model.CustomerDTO;
 
