@@ -1,33 +1,41 @@
 package Dao;
 
+import Dao.Custom.Impl.*;
+
 public class DAOFactory {
     private static DAOFactory daoFactory;
 
     private DAOFactory() {
     }
-    public static DAOFactory getDaoFactory(){
-        if (daoFactory==null){
-            daoFactory= new DAOFactory();
+
+    public static DAOFactory getDaoFactory() {
+        if (daoFactory == null) {
+            daoFactory = new DAOFactory();
         }
         return daoFactory;
 
     }
-    public enum DAOTypes{
-        CUSTOMER,ITEM,ORDER,ORDERDETAILS,QUERYDAO
+
+    public enum DAOTypes {
+        CUSTOMER, ITEM, ORDER, ORDERDETAILS, QUERYDAO
 
     }
-    public void getDAO(DAOTypes Types){
-        switch (Types){
+
+    public SuperDAO getDAO(DAOTypes Types) {
+        switch (Types) {
             case CUSTOMER:
-                return;
+                return new CustomerDAOImpl();
             case ITEM:
-                return;
+                return new ItemDAOImpl();
             case ORDER:
-                return;
+                return new OrderDAOImpl();
             case ORDERDETAILS:
-                return;
+                return new OrderDetailsDAOImpl();
             case QUERYDAO:
-                return;
+                return new QueryDAOImpl();
+            default:
+                return null;
         }
     }
+
 }
