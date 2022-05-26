@@ -1,11 +1,12 @@
 package bo.Custom;
 
+import bo.SuperBO;
 import model.ItemDTO;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public interface ItemBO {
+public interface ItemBO extends SuperBO {
      ArrayList<ItemDTO> getAllItems() throws SQLException, ClassNotFoundException;
 
      boolean deleteItems(String code) throws SQLException, ClassNotFoundException;

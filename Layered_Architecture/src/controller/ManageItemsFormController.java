@@ -1,7 +1,9 @@
 package controller;
 
+import bo.BOFactory;
 import bo.Custom.ItemBO;
 import bo.Custom.Impl.ItemBoImpl;
+import bo.SuperBO;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import javafx.application.Platform;
@@ -31,7 +33,7 @@ import java.util.ArrayList;
  **/
 
 public class ManageItemsFormController {
-    ItemBO itemBo = new ItemBoImpl();
+    private  final ItemBO itemBo = (ItemBO) BOFactory.boFactory().getBO(BOFactory.BOTypes.ITEM);
     public AnchorPane root;
     public JFXTextField txtCode;
     public JFXTextField txtDescription;
@@ -44,6 +46,7 @@ public class ManageItemsFormController {
 
 
     public void initialize() {
+
         tblItems.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("code"));
         tblItems.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("description"));
         tblItems.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("qtyOnHand"));

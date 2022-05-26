@@ -1,7 +1,12 @@
 package controller;
 
+import Dao.DAOFactory;
+import bo.BOFactory;
 import bo.Custom.CustomerBo;
 import bo.Custom.Impl.CustomerBoImpl;
+import bo.Custom.Impl.PurchaseOrderBOImpl;
+import bo.Custom.PurchaseOrderBo;
+import bo.SuperBO;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import javafx.application.Platform;
@@ -32,7 +37,8 @@ import java.util.List;
  **/
 
 public class ManageCustomersFormController {
-    CustomerBo customerBo = new CustomerBoImpl();
+   private final CustomerBo customerBo = (CustomerBo) BOFactory.boFactory().getBO(BOFactory.BOTypes.CUSTOMER);
+
     public AnchorPane root;
     public JFXTextField txtCustomerName;
     public JFXTextField txtCustomerId;
@@ -44,6 +50,8 @@ public class ManageCustomersFormController {
     
 
     public void initialize() {
+
+
         tblCustomers.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("id"));
         tblCustomers.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("name"));
         tblCustomers.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("address"));
