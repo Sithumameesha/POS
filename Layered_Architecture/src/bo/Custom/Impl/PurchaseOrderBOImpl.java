@@ -4,13 +4,16 @@ import Dao.CrudDAO;
 import Dao.Custom.*;
 import Dao.Custom.Impl.*;
 import Dao.DAOFactory;
-import Dao.SuperDAO;
 import bo.Custom.PurchaseOrderBo;
 import db.DBConnection;
-import model.CustomerDTO;
-import model.ItemDTO;
-import model.OrderDTO;
-import model.OrderDetailDTO;
+import dto.CustomerDTO;
+import dto.ItemDTO;
+import dto.OrderDTO;
+import dto.OrderDetailDTO;
+import entity.Customer;
+import entity.Item;
+import entity.OrderDetails;
+import entity.Orders;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -27,11 +30,11 @@ public class PurchaseOrderBOImpl implements PurchaseOrderBo {
 
 
 @Override
-    public boolean purchaseOrder(String orderId, LocalDate orderDate, String customerId, List<OrderDetailDTO> orderDetails) throws SQLException, ClassNotFoundException {
-    CrudDAO<OrderDTO,String> orderDAO= new OrderDAOImpl();
+    public boolean purchaseOrder(OrderDTO dto) throws SQLException, ClassNotFoundException {
+    CrudDAO<Orders,String> orderDAO= new OrderDAOImpl();
             Connection connection= DBConnection.getDbConnection().getConnection();
             /*if order id already exist*/
-            if (orderDAO.exist(orderId)) {
+            if (orderDAO.exist(dto.getOrderId())) {
 
             }
 
@@ -41,7 +44,7 @@ public class PurchaseOrderBOImpl implements PurchaseOrderBo {
 //            stm.setDate(2, Date.valueOf(orderDate));
 //            stm.setString(3, customerId);
             OrderDAOImpl orderDAO1 = new OrderDAOImpl();
-            boolean save = orderDAO1.save(new OrderDTO(orderId,orderDate,customerId));
+            boolean save = orderDAO1.save(new Orders(dto.getOrderId(),dto.getOrderDate(), dto.getCustomerId()));
 
             if (!save) {
                 connection.rollback();
@@ -52,8 +55,8 @@ public class PurchaseOrderBOImpl implements PurchaseOrderBo {
             // stm = connection.prepareStatement("INSERT INTO OrderDetails (oid, itemCode, unitPrice, qty) VALUES (?,?,?,?)");
             OrderDetailsDAOImpl orderDetailsDAO= new OrderDetailsDAOImpl();
 
-            for (OrderDetailDTO detail : orderDetails) {
-                boolean save1 = orderDetailsDAO.save(detail);
+            for (OrderDetailDTO detailDTO : dto.getOrderDetails()) {
+                boolean save1 = orderDetailsDAO.save(new OrderDetails(detailDTO.getOid(),detailDTO.getItemCode(),detailDTO.getQty(),detailDTO.getUnitPrice()));
                 if (!save1) {
                     connection.rollback();
                     connection.setAutoCommit(true);
@@ -63,15 +66,11 @@ public class PurchaseOrderBOImpl implements PurchaseOrderBo {
 //                //Search & Update Item
 //                ItemDTO item = findItem(detail.getItemCode());
                 ItemDTO item = null;
-                item.setQtyOnHand(item.getQtyOnHand() - detail.getQty());
+                item.setQtyOnHand(item.getQtyOnHand() - detailDTO.getQty());
 
 
-                CrudDAO<ItemDTO,String>itemDAO= new ItemDAOImpl();
-                boolean update = itemDAO.update(new ItemDTO(item.getCode(),
-                        item.getDescription(),
-                        item.getUnitPrice(),
-                        item.getQtyOnHand()));
 
+                boolean update= itemDAO.update(new Item(item.getCode(),item.getDescription(),item.getUnitPrice(),item.getQtyOnHand()));
                 if (!update) {
                     connection.rollback();
                     connection.setAutoCommit(true);
@@ -91,12 +90,15 @@ public class PurchaseOrderBOImpl implements PurchaseOrderBo {
 
     @Override
     public CustomerDTO searchCustomer(String id ) throws SQLException, ClassNotFoundException {
-       return customerDAO.search(id);
+      // return customerDAO.search(id);
+        Customer ent = customerDAO.search(id);
+        return new CustomerDTO(ent.getId(), ent.getName(), ent.getAddress());
 
     }
     @Override
     public ItemDTO searchItem(String code) throws SQLException, ClassNotFoundException {
-         return itemDAO.search(code);
+        Item ent = itemDAO.search(code);
+        return new ItemDTO(ent.getCode(), ent.getDescription(), ent.getUnitPrice(),ent.getQtyOnHand());
     }
     @Override
     public boolean checkItemAvailable(String code) throws SQLException, ClassNotFoundException {
@@ -112,10 +114,23 @@ public class PurchaseOrderBOImpl implements PurchaseOrderBo {
     }
     @Override
     public ArrayList <CustomerDTO >loadAllCustomer() throws SQLException, ClassNotFoundException {
-     return customerDAO.getAll();
+        ArrayList<Customer> all = customerDAO.getAll();
+        ArrayList<CustomerDTO>allCustomers=new ArrayList<>();
+        for (Customer cu : all) {
+            allCustomers.add(new CustomerDTO(cu.getId(),cu.getName(),cu.getAddress()));
+
+        }
+        return allCustomers;
+
     }
     @Override
     public ArrayList<ItemDTO> loadAllItems() throws SQLException, ClassNotFoundException {
-        return itemDAO.getAll();
+        ArrayList<Item> all = itemDAO.getAll();
+        ArrayList<ItemDTO>allItems = new ArrayList<>();
+        for (Item item : all) {
+allItems.add(new ItemDTO(item.getCode(), item.getDescription(),item.getUnitPrice(), item.getQtyOnHand()));
+        }
+        return  allItems;
+
     }
 }

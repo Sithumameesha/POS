@@ -2,7 +2,7 @@ package Dao.Custom.Impl;
 
 import Dao.Custom.QueryDAO;
 import Dao.SQLUtil;
-import model.CustomDTO;
+import dto.CustomDTO;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;

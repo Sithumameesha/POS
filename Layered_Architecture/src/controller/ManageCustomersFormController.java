@@ -1,12 +1,7 @@
 package controller;
 
-import Dao.DAOFactory;
 import bo.BOFactory;
 import bo.Custom.CustomerBo;
-import bo.Custom.Impl.CustomerBoImpl;
-import bo.Custom.Impl.PurchaseOrderBOImpl;
-import bo.Custom.PurchaseOrderBo;
-import bo.SuperBO;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import javafx.application.Platform;
@@ -21,7 +16,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import model.CustomerDTO;
+import dto.CustomerDTO;
 import view.tdm.CustomerTM;
 
 import java.io.IOException;

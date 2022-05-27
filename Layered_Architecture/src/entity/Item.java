@@ -5,17 +5,17 @@ import java.math.BigDecimal;
 public class Item {
     private String code;
     private String description;
-    private int qtyOnHand;
     private BigDecimal unitPrice;
+    private int qtyOnHand;
 
     public Item() {
     }
 
-    public Item(String code, String description, int qtyOnHand, BigDecimal unitPrice) {
+    public Item(String code, String description, BigDecimal unitPrice, int qtyOnHand) {
         this.code = code;
         this.description = description;
-        this.qtyOnHand = qtyOnHand;
         this.unitPrice = unitPrice;
+        this.qtyOnHand = qtyOnHand;
     }
 
     public String getCode() {
@@ -34,14 +34,6 @@ public class Item {
         this.description = description;
     }
 
-    public int getQtyOnHand() {
-        return qtyOnHand;
-    }
-
-    public void setQtyOnHand(int qtyOnHand) {
-        this.qtyOnHand = qtyOnHand;
-    }
-
     public BigDecimal getUnitPrice() {
         return unitPrice;
     }
@@ -50,13 +42,21 @@ public class Item {
         this.unitPrice = unitPrice;
     }
 
+    public int getQtyOnHand() {
+        return qtyOnHand;
+    }
+
+    public void setQtyOnHand(int qtyOnHand) {
+        this.qtyOnHand = qtyOnHand;
+    }
+
     @Override
     public String toString() {
         return "Item{" +
                 "code='" + code + '\'' +
                 ", description='" + description + '\'' +
-                ", qtyOnHand=" + qtyOnHand +
                 ", unitPrice=" + unitPrice +
+                ", qtyOnHand=" + qtyOnHand +
                 '}';
     }
 }

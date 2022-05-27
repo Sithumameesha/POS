@@ -1,10 +1,12 @@
 package bo.Custom.Impl;
 
-import Dao.Custom.Impl.ItemDAOImpl;
 import Dao.Custom.ItemDAO;
 import Dao.DAOFactory;
 import bo.Custom.ItemBO;
-import model.ItemDTO;
+import dto.CustomerDTO;
+import dto.ItemDTO;
+import entity.Customer;
+import entity.Item;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -14,7 +16,12 @@ public class ItemBoImpl implements ItemBO {
 
  @Override
     public ArrayList<ItemDTO> getAllItems() throws SQLException, ClassNotFoundException {
-        return itemDAO.getAll();
+     ArrayList<Item> all =itemDAO.getAll();
+     ArrayList<ItemDTO> allItems =new ArrayList<>();
+     for (Item item: all ){
+         allItems.add(new ItemDTO(item.getCode(),item.getDescription(),item.getUnitPrice(), item.getQtyOnHand()));
+     }
+     return allItems;
     }
     @Override
     public boolean deleteItems(String code) throws SQLException, ClassNotFoundException {
@@ -22,11 +29,11 @@ public class ItemBoImpl implements ItemBO {
     }
     @Override
     public boolean saveItems(ItemDTO dto) throws SQLException, ClassNotFoundException {
-        return itemDAO.save(dto);
+        return itemDAO.save(new Item(dto.getCode(),dto.getDescription(),dto.getUnitPrice(), dto.getQtyOnHand()));
     }
     @Override
     public boolean updateItem(ItemDTO dto) throws SQLException, ClassNotFoundException {
-        return itemDAO.update(dto);
+        return itemDAO.update(new Item(dto.getCode(),dto.getDescription(),dto.getUnitPrice(), dto.getQtyOnHand()));
     }
     @Override
     public boolean itemIsAvailable(String code) throws SQLException, ClassNotFoundException {
