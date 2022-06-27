@@ -53,7 +53,7 @@
          </cursor>
       </ImageView>
       <Separator layoutX="29.0" layoutY="123.0" prefHeight="0.0" prefWidth="542.0" />
-      <Label fx:id="lblMenu" alignment="CENTER" layoutX="11.0" layoutY="283.0" prefHeight="26.0" prefWidth="577.0" text="Welcome" textAlignment="CENTER" textFill="#0a39f7">
+      <Label fx:id="lblMenu" alignment="CENTER" layoutX="11.0" layoutY="283.0" onMouseClicked="#clickOnAction" prefHeight="26.0" prefWidth="577.0" text="Welcome" textAlignment="CENTER" textFill="#0a39f7">
          <font>
             <Font name="DejaVu Sans Mono Bold" size="22.0" />
          </font>

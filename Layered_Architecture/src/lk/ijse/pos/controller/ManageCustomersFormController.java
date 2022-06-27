@@ -77,19 +77,10 @@ public class ManageCustomersFormController {
         tblCustomers.getItems().clear();
         /*Get all customers*/
         try {
-
-            //Loos Coupling
-
-           // ArrayList<CustomerDTO> allCustomers = customerDAO.getAll();
-//
-
             ArrayList<CustomerDTO> allCustomers = customerBo.getAllCustomer();
-
-
             for (CustomerDTO customer : allCustomers) {
                 tblCustomers.getItems().add(new CustomerTM(customer.getId(), customer.getName(), customer.getAddress()));
             }
-
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         } catch (ClassNotFoundException e) {
@@ -159,11 +150,6 @@ public class ManageCustomersFormController {
                     new Alert(Alert.AlertType.ERROR, id + " already exists").show();
                 }
 
-                //Tight Coupling
-
-               // customerDAO.save(new CustomerDTO(id, name, address));
-
-               // customerBo.saveCustomer(new CustomerDTO(id, name, address));
                 customerBo.saveCustomer(new CustomerDTO(id, name, address));
 
                 tblCustomers.getItems().add(new CustomerTM(id, name, address));
@@ -239,10 +225,6 @@ public class ManageCustomersFormController {
 
     private String generateNewId() {
         try {
-
-            //Tight Coupling
-
-            //return customerDAO.generateNewID();
 
             return customerBo.generateNewId();
 

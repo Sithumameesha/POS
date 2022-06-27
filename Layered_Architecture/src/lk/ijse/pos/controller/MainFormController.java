@@ -142,4 +142,7 @@ public class MainFormController {
             }
         }
     }
+
+    public void clickOnAction(MouseEvent mouseEvent) {
+    }
 }

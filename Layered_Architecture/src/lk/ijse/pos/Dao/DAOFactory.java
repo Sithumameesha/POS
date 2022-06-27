@@ -1,6 +1,6 @@
 package lk.ijse.pos.Dao;
 
-import Dao.Custom.Impl.*;
+
 import lk.ijse.pos.Dao.Custom.Impl.*;
 
 public class DAOFactory {

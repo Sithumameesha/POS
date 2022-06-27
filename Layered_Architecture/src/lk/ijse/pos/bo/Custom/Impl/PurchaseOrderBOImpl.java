@@ -127,7 +127,7 @@ public class PurchaseOrderBOImpl implements PurchaseOrderBo {
         ArrayList<Item> all = itemDAO.getAll();
         ArrayList<ItemDTO>allItems = new ArrayList<>();
         for (Item item : all) {
-allItems.add(new ItemDTO(item.getCode(), item.getDescription(),item.getUnitPrice(), item.getQtyOnHand()));
+        allItems.add(new ItemDTO(item.getCode(), item.getDescription(),item.getUnitPrice(), item.getQtyOnHand()));
         }
         return  allItems;
         //Nothung

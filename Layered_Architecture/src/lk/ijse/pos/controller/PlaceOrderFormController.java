@@ -102,17 +102,11 @@ public class PlaceOrderFormController {
 
             if (newValue != null) {
                 try {
-                    /*Search Customer*/
-                    //Connection connection = DBConnection.getDbConnection().getConnection();
                     try {
                         if (!existCustomer(newValue + "")) {
-//                            "There is no such customer associated with the id " + id
+//
                             new Alert(Alert.AlertType.ERROR, "There is no such customer associated with the id " + newValue + "").show();
                         }
-//
-//
-
-                      //  CustomerDTO search = customerDAO.search(newValue + "");
 
                         CustomerDTO search = purchaseOrderBO.searchCustomer(newValue + "");
 
@@ -139,18 +133,15 @@ public class PlaceOrderFormController {
                 /*Find Item*/
                 try {
                     if (!existItem(newItemCode + "")) {
-//                        throw new NotFoundException("There is no such item associated with the id " + code);
-                    }
-                    //Connection connection = DBConnection.getDbConnection().getConnection();
 
-                   //ItemDTO search = itemDAO.search(newItemCode+"");
+                    }
 
                     ItemDTO item = purchaseOrderBO.searchItem(newItemCode + "");
 
                     txtDescription.setText(item.getDescription());
                     txtUnitPrice.setText(item.getUnitPrice().setScale(2).toString());
 
-//                    txtQtyOnHand.setText(tblOrderDetails.getItems().stream().filter(detail-> detail.getCode().equals(item.getCode())).<Integer>map(detail-> item.getQtyOnHand() - detail.getQty()).findFirst().orElse(item.getQtyOnHand()) + "");
+//
                     Optional<OrderDetailTM> optOrderDetail = tblOrderDetails.getItems().stream().filter(detail -> detail.getCode().equals(newItemCode)).findFirst();
                     txtQtyOnHand.setText((optOrderDetail.isPresent() ? item.getQtyOnHand() - optOrderDetail.get().getQty() : item.getQtyOnHand()) + "");
 
@@ -221,7 +212,6 @@ public class PlaceOrderFormController {
     private void loadAllCustomerIds() {
         try {
 
-           // ArrayList<CustomerDTO>all = customerDAO.getAll();
 
             ArrayList<CustomerDTO> all = purchaseOrderBO.loadAllCustomer();
             for (CustomerDTO customerDTO:all){
@@ -237,10 +227,6 @@ public class PlaceOrderFormController {
 
     private void loadAllItemCodes() {
         try {
-            /*Get all items*/
-
-           // ArrayList<ItemDTO>all = itemDAO.getAll();
-
             ArrayList<ItemDTO> all = purchaseOrderBO.loadAllItems();
 
             for (ItemDTO itemDTO : all) {
