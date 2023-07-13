@@ -1,5 +1,5 @@
 # Layered Architecture
-This is to demonstrate Layered Architecure for GDSE 59 & 60 Students. Hope you enjoy
+This Project is introduced learning Spring Boot Basic CRUD Operation.
 
 ## Version
 1.0.0
